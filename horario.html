@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Horario - Mirian Orellana</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            padding: 20px; 
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+        }
+        .header { 
+            text-align: center; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin-bottom: 20px;
+        }
+        .header h1 { 
+            margin: 0; 
+            font-size: 28px; 
+        }
+        .student-info { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin: 15px 0; 
+            border-left: 5px solid #667eea;
+        }
+        .student-info p { 
+            margin: 5px 0; 
+            font-size: 14px;
+        }
+        .student-info strong { 
+            color: #667eea;
+        }
+        .success { 
+            background-color: #d4edda; 
+            border: 2px solid #28a745; 
+            border-radius: 5px; 
+            padding: 10px; 
+            margin: 10px 0;
+        }
+        .success h3 { 
+            color: #155724; 
+            margin: 0 0 5px 0;
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 10px; 
+            font-size: 11px;
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 8px; 
+            text-align: center; 
+        }
+        th { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            font-weight: bold;
+        }
+        .hora { 
+            font-weight: bold; 
+            width: 12%; 
+            background: #e9ecef; 
+        }
+        /* Colores por Materia */
+        .teorias { background-color: #e3f2fd; border-left: 4px solid #2196f3; }
+        .psicologia { background-color: #e8f5e9; border-left: 4px solid #4caf50; }
+        .etica { background-color: #f3e5f5; border-left: 4px solid #9c27b0; }
+        .economia { background-color: #fff3e0; border-left: 4px solid #ff9800; }
+        .sociologia { background-color: #ffebee; border-left: 4px solid #f44336; }
+        .metodos { background-color: #fce4ec; border-left: 4px solid #e91e63; }
+        .introduccion { background-color: #e0f7fa; border-left: 4px solid #00bcd4; }
+        .romano { background-color: #fff8e1; border-left: 4px solid #ff6f00; }
+        .criminologia { background-color: #eceff1; border-left: 4px solid #607d8b; }
+        .leyenda { 
+            margin-top: 20px; 
+            padding: 15px; 
+            background: #f9f9f9; 
+            border-radius: 8px;
+        }
+        .leyenda h3 { 
+            margin-top: 0;
+            color: #333;
+        }
+        .leyenda table { 
+            font-size: 10px;
+        }
+        .leyenda td { 
+            padding: 5px;
+        }
+        .info-grupo {
+            font-size: 9px;
+            color: #666;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📅 Horario Semanal Universitario</h1>
+        <p>Universidad San Simón - Facultad de Ciencias Jurídicas</p>
+    </div>
+    
+    <div class="success">
+        <h3>✅ ¡HORARIO SIN CONFLICTOS!</h3>
+        <p>Tus 9 materias están correctamente programadas sin choques de horario.</p>
+    </div>
+    
+    <div class="student-info">
+        <p><strong>👤 Estudiante:</strong> MIRIAN LETICIA ORELLANA HEREDIA</p>
+        <p><strong>🆔 Código:</strong> 202606428</p>
+        <p><strong>🎓 Carrera:</strong> LICENCIATURA EN CIENCIAS JURIDICAS</p>
+        <p><strong>📚 Gestión:</strong> 0/2026</p>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Periodo</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miércoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>Sábado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="hora">06:30 - 08:00</td>
+                <td class="psicologia">
+                    <strong>Psicología Jurídica</strong><br>
+                    <span class="info-grupo">📌 Grupo 13 | 🏫 TP4</span><br>
+                    Aramburo Guerrero Tania F.
+                </td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td class="psicologia">
+                    <strong>Psicología Jurídica</strong><br>
+                    <span class="info-grupo">📌 Grupo 13 | 🏫 CP1</span><br>
+                    Aramburo Guerrero Tania F.
+                </td>
+                <td>Libre</td>
+                <td>Libre</td>
+            </tr>
+            <tr>
+                <td class="hora">08:00 - 09:30</td>
+                <td class="teorias">
+                    <strong>Teorías del Estado</strong><br>
+                    <span class="info-grupo">📌 Grupo 12 | 🏫 PP5</span><br>
+                    Por Designar
+                </td>
+                <td class="economia">
+                    <strong>Economía Política</strong><br>
+                    <span class="info-grupo">📌 Grupo 26 | 🏫 PP5</span><br>
+                    Camacho Rodríguez Gerson
+                </td>
+                <td class="criminologia">
+                    <strong>Criminología</strong><br>
+                    <span class="info-grupo">📌 Grupo 12 | 🏫 PB1</span><br>
+                    Andrade Vallejos Richard
+                </td>
+                <td class="teorias">
+                    <strong>Teorías del Estado</strong><br>
+                    <span class="info-grupo">📌 Grupo 12 | 🏫 PP5</span><br>
+                    Por Designar
+                </td>
+                <td class="economia">
+                    <strong>Economía Política</strong><br>
+                    <span class="info-grupo">📌 Grupo 26 | 🏫 PP5</span><br>
+                    Camacho Rodríguez Gerson
+                </td>
+                <td class="criminologia">
+                    <strong>Criminología</strong><br>
+                    <span class="info-grupo">📌 Grupo 12 | 🏫 CP5</span><br>
+                    Andrade Vallejos Richard
+                </td>
+            </tr>
+            <tr>
+                <td class="hora">09:30 - 11:00</td>
+                <td class="sociologia">
+                    <strong>Sociología Jurídica</strong><br>
+                    <span class="info-grupo">📌 Grupo 38 | 🏫 PB2</span><br>
+                    Miranda Tapia Daniel
+                </td>
+                <td>Libre</td>
+                <td class="romano">
+                    <strong>Derecho Romano</strong><br>
+                    <span class="info-grupo">📌 Grupo 22 | 🏫 QP4</span><br>
+                    Uzqueda Burgos María Teresa
+                </td>
+                <td class="sociologia">
+                    <strong>Sociología Jurídica</strong><br>
+                    <span class="info-grupo">📌 Grupo 38 | 🏫 PB2</span><br>
+                    Miranda Tapia Daniel
+                </td>
+                <td>Libre</td>
+                <td class="romano">
+                    <strong>Derecho Romano</strong><br>
+                    <span class="info-grupo">📌 Grupo 22 | 🏫 QP4</span><br>
+                    Uzqueda Burgos María Teresa
+                </td>
+            </tr>
+            <tr>
+                <td class="hora">11:00 - 12:30</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+            </tr>
+            <tr>
+                <td class="hora">12:30 - 14:00</td>
+                <td class="etica">
+                    <strong>Ética y Oratoria</strong><br>
+                    <span class="info-grupo">📌 Grupo 11 | 🏫 CP4</span><br>
+                    Sahonero Molina Antonieta Jankarla
+                </td>
+                <td>Libre</td>
+                <td class="metodos">
+                    <strong>Métodos e Investigación</strong><br>
+                    <span class="info-grupo">📌 Grupo 32 | 🏫 QP3</span><br>
+                    Zapata Vasquez Neyer
+                </td>
+                <td class="etica">
+                    <strong>Ética y Oratoria</strong><br>
+                    <span class="info-grupo">📌 Grupo 11 | 🏫 CP4</span><br>
+                    Sahonero Molina Antonieta Jankarla
+                </td>
+                <td>Libre</td>
+                <td>Libre</td>
+            </tr>
+            <tr>
+                <td class="hora">14:00 - 15:30</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td class="metodos">
+                    <strong>Métodos e Investigación</strong><br>
+                    <span class="info-grupo">📌 Grupo 32 | 🏫 SP5</span><br>
+                    Zapata Vasquez Neyer
+                </td>
+                <td>Libre</td>
+            </tr>
+            <tr>
+                <td class="hora">15:30 - 17:00</td>
+                <td>Libre</td>
+                <td class="introduccion">
+                    <strong>Introducción al Derecho</strong><br>
+                    <span class="info-grupo">📌 Grupo 33 | 🏫 CP4</span><br>
+                    Vallejos Rodriguez Roberto Mario
+                </td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td class="introduccion">
+                    <strong>Introducción al Derecho</strong><br>
+                    <span class="info-grupo">📌 Grupo 33 | 🏫 CP4</span><br>
+                    Vallejos Rodriguez Roberto Mario
+                </td>
+                <td>Libre</td>
+            </tr>
+            <tr>
+                <td class="hora">17:00 - 18:30</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+            </tr>
+            <tr>
+                <td class="hora">18:30 - 20:00</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+                <td>Libre</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <div class="leyenda">
+        <h3>🎨 Leyenda de Colores por Materia</h3>
+        <table>
+            <tr>
+                <td style="background-color: #e3f2fd; border-left: 4px solid #2196f3;">Teorías del Estado (Grupo 12)</td>
+                <td style="background-color: #e8f5e9; border-left: 4px solid #4caf50;">Psicología Jurídica (Grupo 13)</td>
+                <td style="background-color: #f3e5f5; border-left: 4px solid #9c27b0;">Ética y Oratoria (Grupo 11)</td>
+            </tr>
+            <tr>
+                <td style="background-color: #fff3e0; border-left: 4px solid #ff9800;">Economía Política (Grupo 26)</td>
+                <td style="background-color: #ffebee; border-left: 4px solid #f44336;">Sociología Jurídica (Grupo 38)</td>
+                <td style="background-color: #fce4ec; border-left: 4px solid #e91e63;">Métodos e Investigación (Grupo 32)</td>
+            </tr>
+            <tr>
+                <td style="background-color: #e0f7fa; border-left: 4px solid #00bcd4;">Introducción al Derecho (Grupo 33)</td>
+                <td style="background-color: #fff8e1; border-left: 4px solid #ff6f00;">Derecho Romano (Grupo 22)</td>
+                <td style="background-color: #eceff1; border-left: 4px solid #607d8b;">Criminología (Grupo 12)</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
