@@ -2,110 +2,364 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Horario - Mirian Orellana</title>
+    <title>Constructor de Horario - Ciencias Jurídicas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #1e3c72;
+            --primary-dark: #2a5298;
+            --secondary: #64748b;
+            --bg-body: #f1f5f9;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
         body { 
-            font-family: Arial, sans-serif; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
+            color: var(--text-main);
             padding: 20px; 
             min-height: 100vh;
+            margin: 0;
         }
         .container { 
-            max-width: 1200px; 
+            max-width: 1400px; 
             margin: 0 auto; 
             background: white; 
             padding: 30px; 
-            border-radius: 15px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+            border-radius: 20px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3); 
         }
         .header { 
             text-align: center; 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
             color: white; 
-            padding: 20px; 
-            border-radius: 10px; 
-            margin-bottom: 20px;
+            padding: 25px; 
+            border-radius: 15px; 
+            margin-bottom: 25px;
         }
         .header h1 { 
             margin: 0; 
-            font-size: 28px; 
+            font-size: 32px; 
+            font-weight: 600;
+        }
+        .header p {
+            margin: 10px 0 0;
+            font-size: 16px;
+            opacity: 0.9;
         }
         .student-info { 
-            background: #f8f9fa; 
-            padding: 15px; 
-            border-radius: 8px; 
-            margin: 15px 0; 
-            border-left: 5px solid #667eea;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px; 
+            border-radius: 12px; 
+            margin: 20px 0; 
+            border-left: 6px solid #2a5298;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
         }
         .student-info p { 
-            margin: 5px 0; 
-            font-size: 14px;
+            margin: 8px 0; 
+            font-size: 15px;
         }
         .student-info strong { 
-            color: #667eea;
+            color: #2a5298;
+            font-weight: 600;
         }
-        .success { 
-            background-color: #d4edda; 
-            border: 2px solid #28a745; 
-            border-radius: 5px; 
-            padding: 10px; 
-            margin: 10px 0;
+
+        /* Panel de control (adaptado del estilo anterior) */
+        .panel-control {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: flex-end;
         }
-        .success h3 { 
-            color: #155724; 
-            margin: 0 0 5px 0;
+        .campo {
+            display: flex;
+            flex-direction: column;
+            min-width: 250px;
+            flex: 1 1 250px;
+        }
+        .campo label {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-main);
+            font-size: 14px;
+        }
+        .campo select {
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 14px;
+            background: white;
+            color: var(--text-main);
+            transition: border-color 0.2s;
+        }
+        .campo select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+        }
+        .campo button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        .btn-add {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-add:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+        .btn-reset {
+            background: white;
+            color: var(--secondary);
+            border: 1px solid var(--border);
+        }
+        .btn-reset:hover {
+            background: #f1f5f9;
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+        #info-grupo {
+            margin-top: 10px;
+            padding: 15px;
+            background: #eff6ff;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            font-size: 14px;
+            width: 100%;
+            color: var(--primary-dark);
+        }
+        #resultado {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            display: none;
+        }
+        .success-msg {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        .error-msg {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        /* Tabla con estilos del horario oficial */
+        .tabla-container {
+            overflow-x: auto;
+            margin: 25px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         table { 
             width: 100%; 
             border-collapse: collapse; 
-            margin-top: 10px; 
-            font-size: 11px;
+            font-size: 13px;
+            background: white;
         }
         th, td { 
-            border: 1px solid #ddd; 
-            padding: 8px; 
+            border: 1px solid #dee2e6; 
+            padding: 15px 8px; 
             text-align: center; 
+            vertical-align: middle;
         }
         th { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); 
             color: white; 
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .hora { 
-            font-weight: bold; 
-            width: 12%; 
+            font-weight: 700; 
+            width: 10%; 
             background: #e9ecef; 
+            font-size: 13px;
+            color: #1e3c72;
         }
-        /* Colores por Materia */
-        .teorias { background-color: #e3f2fd; border-left: 4px solid #2196f3; }
-        .psicologia { background-color: #e8f5e9; border-left: 4px solid #4caf50; }
-        .etica { background-color: #f3e5f5; border-left: 4px solid #9c27b0; }
-        .economia { background-color: #fff3e0; border-left: 4px solid #ff9800; }
-        .sociologia { background-color: #ffebee; border-left: 4px solid #f44336; }
-        .metodos { background-color: #fce4ec; border-left: 4px solid #e91e63; }
-        .introduccion { background-color: #e0f7fa; border-left: 4px solid #00bcd4; }
+        /* Colores de materias - versión más suave */
+        .teorias { background-color: #e3f2fd; border-left: 4px solid #1976d2; }
+        .psicologia { background-color: #e8f5e9; border-left: 4px solid #2e7d32; }
+        .etica { background-color: #f3e5f5; border-left: 4px solid #7b1fa2; }
+        .economia { background-color: #fff3e0; border-left: 4px solid #f57c00; }
+        .sociologia { background-color: #ffebee; border-left: 4px solid #c62828; }
+        .metodos { background-color: #fce4ec; border-left: 4px solid #c2185b; }
+        .introduccion { background-color: #e0f7fa; border-left: 4px solid #0097a7; }
         .romano { background-color: #fff8e1; border-left: 4px solid #ff6f00; }
-        .criminologia { background-color: #eceff1; border-left: 4px solid #607d8b; }
-        .leyenda { 
-            margin-top: 20px; 
-            padding: 15px; 
-            background: #f9f9f9; 
-            border-radius: 8px;
+        .criminologia { background-color: #eceff1; border-left: 4px solid #546e7a; }
+        
+        td {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
         }
-        .leyenda h3 { 
-            margin-top: 0;
-            color: #333;
-        }
-        .leyenda table { 
-            font-size: 10px;
-        }
-        .leyenda td { 
-            padding: 5px;
+        td:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 10;
+            border-radius: 4px;
         }
         .info-grupo {
-            font-size: 9px;
-            color: #666;
-            margin-top: 3px;
+            font-size: 11px;
+            color: #495057;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+        .info-aula {
+    font-size: 10px;
+    color: #6c757d;
+    margin-top: 2px;
+    font-style: italic;
+}
+        .badge-grupo {
+            display: inline-block;
+            background: rgba(0,0,0,0.1);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-left: 5px;
+        }
+        .libre {
+            background-color: #f8f9fa;
+            color: #adb5bd;
+            font-style: italic;
+            font-weight: 500;
+        }
+        .choque {
+            background-color: #fef2f2 !important;
+            border: 1px solid #fecaca;
+        }
+        .choque::after {
+            content: "⚠️";
+            position: absolute;
+            top: 2px;
+            right: 4px;
+            font-size: 10px;
+        }
+        .materia-titulo {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        /* Resumen de materias (etiquetas) */
+        .resumen-materias {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+            justify-content: center;
+        }
+        .resumen-item {
+            background: white;
+            border-radius: 20px;
+            padding: 5px 15px;
+            font-size: 12px;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 4px solid transparent;
+        }
+
+        /* Leyenda */
+        .leyenda { 
+            margin-top: 30px; 
+            padding: 25px; 
+            background: #f8f9fa; 
+            border-radius: 15px;
+            border: 1px solid #dee2e6;
+        }
+        .leyenda h3 { 
+            margin: 0 0 15px 0;
+            color: #1e3c72;
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .leyenda-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+        }
+        .leyenda-item {
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 12px;
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 300px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .modal h3 { margin-top: 0; }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: flex-end;
+        }
+        .btn-cancel {
+            background: #e2e8f0;
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-confirm {
+            background: var(--danger);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -113,215 +367,735 @@
 
 <div class="container">
     <div class="header">
-        <h1>📅 Horario Semanal Universitario</h1>
-        <p>Universidad San Simón - Facultad de Ciencias Jurídicas</p>
+        <h1>📅 Constructor de Horario</h1>
+        <p>Facultad de Ciencias Jurídicas - Gestión 0/2026</p>
     </div>
-    
-    <div class="success">
-        <h3>✅ ¡HORARIO SIN CONFLICTOS!</h3>
-        <p>Tus 9 materias están correctamente programadas sin choques de horario.</p>
-    </div>
-    
+
     <div class="student-info">
         <p><strong>👤 Estudiante:</strong> MIRIAN LETICIA ORELLANA HEREDIA</p>
         <p><strong>🆔 Código:</strong> 202606428</p>
         <p><strong>🎓 Carrera:</strong> LICENCIATURA EN CIENCIAS JURIDICAS</p>
-        <p><strong>📚 Gestión:</strong> 0/2026</p>
+        <p><strong>📋 Materias:</strong> <span id="contador-materias" style="font-weight: bold; color: var(--primary);">0</span></p>
     </div>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>Periodo</th>
-                <th>Lunes</th>
-                <th>Martes</th>
-                <th>Miércoles</th>
-                <th>Jueves</th>
-                <th>Viernes</th>
-                <th>Sábado</th>
-                <th>Periodo</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="hora">06:30 - 08:00</td>
-                <td class="psicologia">
-                    <strong>Psicología Jurídica</strong><br>
-                    <span class="info-grupo">📌 Grupo 13 | 🏫 TP4</span><br>
-                    Aramburo Guerrero Tania F.
-                </td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td class="psicologia">
-                    <strong>Psicología Jurídica</strong><br>
-                    <span class="info-grupo">📌 Grupo 13 | 🏫 CP1</span><br>
-                    Aramburo Guerrero Tania F.
-                </td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td class="hora">06:30 - 08:00</td>
-            </tr>
-            <tr>
-                <td class="hora">08:00 - 09:30</td>
-                <td class="teorias">
-                    <strong>Teorías del Estado</strong><br>
-                    <span class="info-grupo">📌 Grupo 12 | 🏫 PP5</span><br>
-                    Por Designar
-                </td>
-                <td class="economia">
-                    <strong>Economía Política</strong><br>
-                    <span class="info-grupo">📌 Grupo 26 | 🏫 PP5</span><br>
-                    Camacho Rodríguez Gerson
-                </td>
-                <td class="criminologia">
-                    <strong>Criminología</strong><br>
-                    <span class="info-grupo">📌 Grupo 12 | 🏫 PB1</span><br>
-                    Andrade Vallejos Richard
-                </td>
-                <td class="teorias">
-                    <strong>Teorías del Estado</strong><br>
-                    <span class="info-grupo">📌 Grupo 12 | 🏫 PP5</span><br>
-                    Por Designar
-                </td>
-                <td class="economia">
-                    <strong>Economía Política</strong><br>
-                    <span class="info-grupo">📌 Grupo 26 | 🏫 PP5</span><br>
-                    Camacho Rodríguez Gerson
-                </td>
-                <td class="criminologia">
-                    <strong>Criminología</strong><br>
-                    <span class="info-grupo">📌 Grupo 12 | 🏫 CP5</span><br>
-                    Andrade Vallejos Richard
-                </td>
-                <td class="hora">08:00 - 09:30</td>
-            </tr>
-            <tr>
-                <td class="hora">09:30 - 11:00</td>
-                <td class="sociologia">
-                    <strong>Sociología Jurídica</strong><br>
-                    <span class="info-grupo">📌 Grupo 38 | 🏫 PB2</span><br>
-                    Miranda Tapia Daniel
-                </td>
-                <td>Libre</td>
-                <td class="romano">
-                    <strong>Derecho Romano</strong><br>
-                    <span class="info-grupo">📌 Grupo 22 | 🏫 QP4</span><br>
-                    Uzqueda Burgos María Teresa
-                </td>
-                <td class="sociologia">
-                    <strong>Sociología Jurídica</strong><br>
-                    <span class="info-grupo">📌 Grupo 38 | 🏫 PB2</span><br>
-                    Miranda Tapia Daniel
-                </td>
-                <td>Libre</td>
-                <td class="romano">
-                    <strong>Derecho Romano</strong><br>
-                    <span class="info-grupo">📌 Grupo 22 | 🏫 QP4</span><br>
-                    Uzqueda Burgos María Teresa
-                </td>
-                <td class="hora">09:30 - 11:00</td>
-            </tr>
-            <tr>
-                <td class="hora">11:00 - 12:30</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td class="hora">11:00 - 12:30</td>
-            </tr>
-            <tr>
-                <td class="hora">12:30 - 14:00</td>
-                <td class="etica">
-                    <strong>Ética y Oratoria</strong><br>
-                    <span class="info-grupo">📌 Grupo 11 | 🏫 CP4</span><br>
-                    Sahonero Molina Antonieta Jankarla
-                </td>
-                <td>Libre</td>
-                <td class="metodos">
-                    <strong>Métodos e Investigación</strong><br>
-                    <span class="info-grupo">📌 Grupo 32 | 🏫 QP3</span><br>
-                    Zapata Vasquez Neyer
-                </td>
-                <td class="etica">
-                    <strong>Ética y Oratoria</strong><br>
-                    <span class="info-grupo">📌 Grupo 11 | 🏫 CP4</span><br>
-                    Sahonero Molina Antonieta Jankarla
-                </td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td class="hora">12:30 - 14:00</td>
-            </tr>
-            <tr>
-                <td class="hora">14:00 - 15:30</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td class="metodos">
-                    <strong>Métodos e Investigación</strong><br>
-                    <span class="info-grupo">📌 Grupo 32 | 🏫 SP5</span><br>
-                    Zapata Vasquez Neyer
-                </td>
-                <td>Libre</td>
-                <td class="hora">14:00 - 15:30</td>
-            </tr>
-            <tr>
-                <td class="hora">15:30 - 17:00</td>
-                <td>Libre</td>
-                <td class="introduccion">
-                    <strong>Introducción al Derecho</strong><br>
-                    <span class="info-grupo">📌 Grupo 33 | 🏫 CP4</span><br>
-                    Vallejos Rodriguez Roberto Mario
-                </td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td class="introduccion">
-                    <strong>Introducción al Derecho</strong><br>
-                    <span class="info-grupo">📌 Grupo 33 | 🏫 CP4</span><br>
-                    Vallejos Rodriguez Roberto Mario
-                </td>
-                <td>Libre</td>
-                <td class="hora">15:30 - 17:00</td>
-            </tr>
-            <tr>
-                <td class="hora">17:00 - 18:30</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td class="hora">17:00 - 18:30</td>
-            </tr>
-            <tr>
-                <td class="hora">18:30 - 20:00</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td>Libre</td>
-                <td class="hora">18:30 - 20:00</td>
-            </tr>
-        </tbody>
-    </table>
-    
-    <div class="leyenda">
-        <h3>🎨 Leyenda de Colores por Materia</h3>
-        <table>
-            <tr>
-                <td style="background-color: #e3f2fd; border-left: 4px solid #2196f3;">Teorías del Estado (Grupo 12)</td>
-                <td style="background-color: #e8f5e9; border-left: 4px solid #4caf50;">Psicología Jurídica (Grupo 13)</td>
-                <td style="background-color: #f3e5f5; border-left: 4px solid #9c27b0;">Ética y Oratoria (Grupo 11)</td>
-            </tr>
-            <tr>
-                <td style="background-color: #fff3e0; border-left: 4px solid #ff9800;">Economía Política (Grupo 26)</td>
-                <td style="background-color: #ffebee; border-left: 4px solid #f44336;">Sociología Jurídica (Grupo 38)</td>
-                <td style="background-color: #fce4ec; border-left: 4px solid #e91e63;">Métodos e Investigación (Grupo 32)</td>
-            </tr>
-            <tr>
-                <td style="background-color: #e0f7fa; border-left: 4px solid #00bcd4;">Introducción al Derecho (Grupo 33)</td>
-                <td style="background-color: #fff8e1; border-left: 4px solid #ff6f00;">Derecho Romano (Grupo 22)</td>
-                <td style="background-color: #eceff1; border-left: 4px solid #607d8b;">Criminología (Grupo
+
+    <div class="panel-control">
+        <div class="campo">
+            <label for="selMateria">Materia:</label>
+            <select id="selMateria">
+                <option value="">-- Selecciona una materia --</option>
+            </select>
+        </div>
+        <div class="campo">
+            <label for="selGrupo">Grupo:</label>
+            <select id="selGrupo" disabled>
+                <option value="">Primero elige materia</option>
+            </select>
+        </div>
+        <div class="campo">
+            <label>&nbsp;</label>
+            <button id="btnAgregar" class="btn-add">➕ Agregar</button>
+        </div>
+        <div class="campo">
+            <label>&nbsp;</label>
+            <button id="btnReset" class="btn-reset">🔄 Vaciar</button>
+        </div>
+    </div>
+
+    <div id="info-grupo">Selecciona una materia y un grupo para ver detalles.</div>
+    <div id="resultado"></div>
+
+    <!-- Contenedor para el resumen dinámico de materias -->
+    <div id="resumen-materias" class="resumen-materias"></div>
+
+    <div class="tabla-container">
+        <table id="tabla-horario">
+            <thead>
+                <tr>
+                    <th>Hora</th>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miércoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                    <th>Sábado</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-cuerpo">
+                <!-- Se llena dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Leyenda dinámica -->
+    <div class="leyenda" id="leyenda-container">
+        <h3>🎨 Leyenda de Materias</h3>
+        <div id="leyenda-grid" class="leyenda-grid"></div>
+        <p style="margin-top: 20px; font-size: 14px; color: #1e3c72; text-align: center; font-weight: 500;" id="leyenda-estado">
+            ✅ Horario sin conflictos
+        </p>
+    </div>
+
+    <div class="footer">
+        <p>Haz clic en una celda para eliminar la materia. Si hay choque, podrás elegir cuál quitar.</p>
+    </div>
+</div>
+
+<!-- Modal para eliminar -->
+<div id="modalEliminar" class="modal-overlay">
+    <div class="modal">
+        <h3>Eliminar Materia</h3>
+        <p>Hay varias materias en esta celda. ¿Cuál deseas eliminar?</p>
+        <div id="modal-content" style="margin-bottom: 15px;"></div>
+        <div class="modal-buttons">
+            <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function() {
+    // ===================== BASE DE DATOS COMPLETA =====================
+    const materiasData = {
+    "CRIMINOLOGIA": {
+        codigo: "1900001",
+        grupos: {
+            "11": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "12": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["08:00","08:45"],["08:45","09:30"],["08:00","08:45"],["08:45","09:30"]], aulas: ["PB1","PB1","CP5","CP5"] },
+            "13": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "14": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["SP1","SP1","SP1","SP1"] },
+            "21": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["09:30","10:15"],["10:15","11:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "22": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "23": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["CP3","CP3","CP3","CP3"] },
+            "24": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "25": { dias: ["SABADO","SABADO","SABADO","SABADO"], horas: [["06:30","07:15"],["07:15","08:00"],["08:00","08:45"],["08:45","09:30"]], aulas: ["QL","QL","QL","QL"] },
+            "26": { dias: ["SABADO","SABADO","SABADO","SABADO"], horas: [["08:00","08:45"],["08:45","09:30"],["09:30","10:15"],["10:15","11:00"]], aulas: ["DAPRAC3","DAPRAC3","DAPRAC3","DAPRAC3"] },
+            "27": { dias: ["LUNES","LUNES","VIERNES","VIERNES"], horas: [["11:00","11:45"],["11:45","12:30"],["09:30","10:15"],["10:15","11:00"]], aulas: ["CP5","CP5","CP5","CP5"] },
+            "31": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["12:30","13:15"],["13:15","14:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["QP2","QP2","QP6","QP6"] },
+            "32": { dias: ["MIERCOLES","MIERCOLES","MIERCOLES","MIERCOLES"], horas: [["15:30","16:15"],["16:15","17:00"],["17:00","17:45"],["17:45","18:30"]], aulas: ["QP3","QP3","QP2","QP2"] },
+            "33": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["15:30","16:15"],["16:15","17:00"],["15:30","16:15"],["16:15","17:00"]], aulas: ["PB1","PB1","PB1","PB1"] },
+            "34": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["15:30","16:15"],["16:15","17:00"],["15:30","16:15"],["16:15","17:00"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "35": { dias: ["LUNES","LUNES","MIERCOLES","MIERCOLES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["QP2","QP2","QP2","QP2"] },
+            "36": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["PP1","PP1","PP1","PP1"] },
+            "37": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "38": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "41": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "42": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "43": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["PP5","PP5","PP5","PP5"] },
+            "44": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "47": { dias: ["SABADO","SABADO","SABADO","SABADO"], horas: [["11:00","11:45"],["11:45","12:30"],["12:30","13:15"],["13:15","14:00"]], aulas: ["SC","SC","SC","SC"] }
+        }
+    },
+    "DERECHO ROMANO E HISTORIA DEL DERECHO": {
+        codigo: "1900002",
+        grupos: {
+            "11": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["PP3","PP3","PP3","PP3"] },
+            "12": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["06:30","07:15"],["07:15","08:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["SP2","SP2","CP4","CP4"] },
+            "13": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["08:00","08:45"],["08:45","09:30"],["08:00","08:45"],["08:45","09:30"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "14": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["CP1","CP1","TP4","TP4"] },
+            "21": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["PP2","PP2","PP2","PP2"] },
+            "22": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["09:30","10:15"],["10:15","11:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "23": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "24": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["09:30","10:15"],["10:15","11:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "25": { dias: ["LUNES","LUNES","LUNES","LUNES"], horas: [["18:30","19:15"],["19:15","20:00"],["20:00","20:45"],["20:45","21:30"]], aulas: ["QL","QL","QL","QL"] },
+            "27": { dias: ["VIERNES","VIERNES","SABADO","SABADO"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["CP5","CP5","CP5","CP5"] },
+            "31": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["18:30","19:15"],["19:15","20:00"],["15:30","16:15"],["16:15","17:00"]], aulas: ["SP4","SP4","TP2","TP2"] },
+            "32": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["15:30","16:15"],["16:15","17:00"],["15:30","16:15"],["16:15","17:00"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "33": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["CP1","CP1","CP1","CP1"] },
+            "34": { dias: ["SABADO","SABADO","SABADO","SABADO"], horas: [["11:00","11:45"],["11:45","12:30"],["12:30","13:15"],["13:15","14:00"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "35": { dias: ["MIERCOLES","MIERCOLES","VIERNES","VIERNES"], horas: [["14:00","14:45"],["14:45","15:30"],["18:30","19:15"],["19:15","20:00"]], aulas: ["PP5","PP5","QP2","QP2"] },
+            "36": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["PP1","PP1","PP1","PP1"] },
+            "37": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["18:30","19:15"],["19:15","20:00"],["14:00","14:45"],["14:45","15:30"]], aulas: ["QP6","QP6","QP3","QP3"] },
+            "38": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["14:00","14:45"],["14:45","15:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["SP2","SP2","CP1","CP1"] },
+            "41": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "42": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "43": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["20:00","20:45"],["20:45","21:30"],["15:30","16:15"],["16:15","17:00"]], aulas: ["CP1","CP1","SP2","SP2"] },
+            "44": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "47": { dias: ["SABADO","SABADO","SABADO","SABADO"], horas: [["15:30","16:15"],["16:15","17:00"],["17:00","17:45"],["17:45","18:30"]], aulas: ["SC","SC","SC","SC"] }
+        }
+    },
+    "ECONOMIA POLITICA Y DERECHO ECONOMICO": {
+        codigo: "1900003",
+        grupos: {
+            "11": { dias: ["MIERCOLES","MIERCOLES","MIERCOLES","MIERCOLES"], horas: [["11:00","11:45"],["11:45","12:30"],["12:30","13:15"],["13:15","14:00"]], aulas: ["SP4","SP4","SP4","SP4"] },
+            "12": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["08:00","08:45"],["08:45","09:30"],["08:00","08:45"],["08:45","09:30"]], aulas: ["PB1","PB1","PB1","PB1"] },
+            "13": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["08:00","08:45"],["08:45","09:30"],["08:00","08:45"],["08:45","09:30"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "14": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["08:00","08:45"],["08:45","09:30"],["08:00","08:45"],["08:45","09:30"]], aulas: ["PB2","PB2","PB2","PB2"] },
+            "21": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "22": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "23": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["PP2","PP2","PP2","PP2"] },
+            "24": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["08:00","08:45"],["08:45","09:30"],["08:00","08:45"],["08:45","09:30"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "25": { dias: ["SABADO","SABADO","SABADO","SABADO"], horas: [["12:30","13:15"],["13:15","14:00"],["14:00","14:45"],["14:45","15:30"]], aulas: ["QL","QL","QL","QL"] },
+            "26": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["08:00","08:45"],["08:45","09:30"],["08:00","08:45"],["08:45","09:30"]], aulas: ["PP5","PP5","PP5","PP5"] },
+            "27": { dias: ["MARTES","MARTES","SABADO","SABADO"], horas: [["06:30","07:15"],["07:15","08:00"],["08:00","08:45"],["08:45","09:30"]], aulas: ["CP5","CP5","SP4","SP4"] },
+            "31": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["PB1","PB1","PB1","PB1"] },
+            "32": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["PP2","PP2","PP2","PP2"] },
+            "33": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["SP1","SP1","SP1","SP1"] },
+            "34": { dias: ["MIERCOLES","MIERCOLES","MIERCOLES","MIERCOLES"], horas: [["12:30","13:15"],["13:15","14:00"],["14:00","14:45"],["14:45","15:30"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "35": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["15:30","16:15"],["16:15","17:00"],["15:30","16:15"],["16:15","17:00"]], aulas: ["PP5","PP5","PP5","PP5"] },
+            "36": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["14:00","14:45"],["14:45","15:30"],["08:00","08:45"],["08:45","09:30"]], aulas: ["PP1","PP1","PP1","PP1"] },
+            "37": { dias: ["LUNES","LUNES","MIERCOLES","MIERCOLES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["QP6","QP6","QP6","QP6"] },
+            "38": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["17:00","17:45"],["17:45","18:30"],["12:30","13:15"],["13:15","14:00"]], aulas: ["PP5","PP5","QP4","QP4"] },
+            "41": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "42": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "43": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["PP5","PP5","PP5","PP5"] },
+            "44": { dias: ["SABADO","SABADO","SABADO","SABADO"], horas: [["06:30","07:15"],["07:15","08:00"],["08:00","08:45"],["08:45","09:30"]], aulas: ["CP1","CP1","CP1","CP1"] },
+            "47": { dias: ["MIERCOLES","MIERCOLES","MIERCOLES","MIERCOLES"], horas: [["17:00","17:45"],["17:45","18:30"],["18:30","19:15"],["19:15","20:00"]], aulas: ["SC","SC","SC","SC"] },
+            "61": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["08:00","08:45"],["08:45","09:30"],["08:00","08:45"],["08:45","09:30"]], aulas: ["PP3","PP3","PP3","PP3"] }
+        }
+    },
+    "ETICA Y ORATORIA FORENSE": {
+        codigo: "1900004",
+        grupos: {
+            "11": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["CP4","CP4","CP4","CP4"] },
+            "12": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "13": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["QP5","QP5","QP5","QP5"] },
+            "14": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["CP1","CP1","TP2","TP2"] },
+            "21": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["09:30","10:15"],["10:15","11:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "22": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "23": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["TP2","TP2","TP2","TP2"] },
+            "24": { dias: ["SABADO","SABADO","SABADO","SABADO"], horas: [["09:30","10:15"],["10:15","11:00"],["11:00","11:45"],["11:45","12:30"]], aulas: ["QP2","QP2","QP5","QP5"] },
+            "25": { dias: ["VIERNES","VIERNES","VIERNES","VIERNES"], horas: [["17:00","17:45"],["17:45","18:30"],["18:30","19:15"],["19:15","20:00"]], aulas: ["QL","QL","QL","QL"] },
+            "26": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["CP4","CP4","CP4","CP4"] },
+            "27": { dias: ["MARTES","MARTES","JUEVES","JUEVES"], horas: [["09:30","10:15"],["10:15","11:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["CP5","CP5","CP5","CP5"] },
+            "31": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "32": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["CP4","CP4","CP4","CP4"] },
+            "33": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["TP2","TP2","TP2","TP2"] },
+            "34": { dias: ["SABADO","SABADO","SABADO","SABADO"], horas: [["15:30","16:15"],["16:15","17:00"],["17:00","17:45"],["17:45","18:30"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "35": { dias: ["LUNES","LUNES","MIERCOLES","MIERCOLES"], horas: [["17:00","17:45"],["17:45","18:30"],["15:30","16:15"],["16:15","17:00"]], aulas: ["QP2","QP2","PP5","PP5"] },
+            "36": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["17:00","17:45"],["17:45","18:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["PP1","PP1","PP3","PP3"] },
+            "37": { dias: ["MARTES","MARTES","JUEVES","JUEVES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["SP4","SP4","TP3","TP3"] },
+            "38": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["18:30","19:15"],["19:15","20:00"],["11:00","11:45"],["11:45","12:30"]], aulas: ["CP4","CP4","SP1","SP1"] },
+            "41": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["SP2","SP2","SP2","SP2"] },
+            "42": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "43": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["PP5","PP5","PP5","PP5"] },
+            "44": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["20:00","20:45"],["20:45","21:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["PP6","PP6","PP6","PP6"] },
+            "47": { dias: ["VIERNES","VIERNES","VIERNES","VIERNES"], horas: [["18:30","19:15"],["19:15","20:00"],["20:00","20:45"],["20:45","21:30"]], aulas: ["SC","SC","SC","SC"] }
+        }
+    },
+    "INTRODUCCION AL DERECHO": {
+        codigo: "1900005",
+        grupos: {
+            "11": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["09:30","10:15"],["10:15","11:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["CP3","CP3","CP3","CP3"] },
+            "12": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["PB2","PB2","PB2","PB2"] },
+            "13": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["PP3","PP3","PB2","PB2"] },
+            "14": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["SP1","SP1","SP1","SP1"] },
+            "21": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["09:30","10:15"],["10:15","11:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "22": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "23": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "24": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["PP3","PP3","PP3","PP3"] },
+            "25": { dias: ["SABADO","SABADO","SABADO","SABADO"], horas: [["09:30","10:15"],["10:15","11:00"],["11:00","11:45"],["11:45","12:30"]], aulas: ["QL","QL","QL","QL"] },
+            "26": { dias: ["MIERCOLES","MIERCOLES","MIERCOLES","MIERCOLES"], horas: [["08:00","08:45"],["08:45","09:30"],["09:30","10:15"],["10:15","11:00"]], aulas: ["CP1","CP1","CP1","CP1"] },
+            "27": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["CP5","CP5","CP5","CP5"] },
+            "31": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["SP5","SP5","CP5","CP5"] },
+            "32": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["SP3","SP3","SP3","SP3"] },
+            "33": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["15:30","16:15"],["16:15","17:00"],["15:30","16:15"],["16:15","17:00"]], aulas: ["CP4","CP4","CP4","CP4"] },
+            "34": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["QP4","QP4","QP2","QP2"] },
+            "35": { dias: ["MIERCOLES","MIERCOLES","JUEVES","JUEVES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["CP1","CP1","PB2","PB2"] },
+            "36": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["CP4","CP4","QP2","QP2"] },
+            "37": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["18:30","19:15"],["19:15","20:00"],["20:00","20:45"],["20:45","21:30"]], aulas: ["QP6","QP6","QP6","QP6"] },
+            "38": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["CP5","CP5","CP5","CP5"] },
+            "41": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["20:00","20:45"],["20:45","21:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["QP3","QP3","CP2","CP2"] },
+            "42": { dias: ["MIERCOLES","MIERCOLES","MIERCOLES","MIERCOLES"], horas: [["18:30","19:15"],["19:15","20:00"],["20:00","20:45"],["20:45","21:30"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "43": { dias: ["SABADO","SABADO","SABADO","SABADO"], horas: [["15:30","16:15"],["16:15","17:00"],["17:00","17:45"],["17:45","18:30"]], aulas: ["PP5","PP5","PP5","PP5"] },
+            "44": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "47": { dias: ["MARTES","MARTES","MARTES","MARTES"], horas: [["18:30","19:15"],["19:15","20:00"],["20:00","20:45"],["20:45","21:30"]], aulas: ["SC","SC","SC","SC"] }
+        }
+    },
+    "METODOS Y TECNICAS DE INVESTIGACION": {
+        codigo: "1900023",
+        grupos: {
+            "12": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["CP4","CP4","CP4","CP4"] },
+            "13": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["PB2","PB2","PB2","PB2"] },
+            "14": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["DAPRAC3","DAPRAC3","DAPRAC3","DAPRAC3"] },
+            "21": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["CP3","CP3","CP3","CP3"] },
+            "22": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["09:30","10:15"],["10:15","11:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["PB2","PB2","PB2","PB2"] },
+            "23": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["QP1","QP1","CP1","CP1"] },
+            "24": { dias: ["MIERCOLES","MIERCOLES","MIERCOLES","MIERCOLES"], horas: [["08:00","08:45"],["08:45","09:30"],["09:30","10:15"],["10:15","11:00"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "25": { dias: ["LUNES","LUNES","LUNES","LUNES"], horas: [["15:30","16:15"],["16:15","17:00"],["17:00","17:45"],["17:45","18:30"]], aulas: ["QL","QL","QL","QL"] },
+            "26": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "27": { dias: ["LUNES","LUNES","MIERCOLES","MIERCOLES"], horas: [["17:00","17:45"],["17:45","18:30"],["18:30","19:15"],["19:15","20:00"]], aulas: ["PP1","PP1","SP2","SP2"] },
+            "31": { dias: ["MARTES","MARTES","JUEVES","JUEVES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["PP3","PP3","CP4","CP4"] },
+            "32": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["SP3","SP3","SP3","SP3"] },
+            "33": { dias: ["MIERCOLES","MIERCOLES","VIERNES","VIERNES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["SP4","SP4","QP2","QP2"] },
+            "34": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "35": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["15:30","16:15"],["16:15","17:00"],["15:30","16:15"],["16:15","17:00"]], aulas: ["PP5","PP5","PP5","PP5"] },
+            "36": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["15:30","16:15"],["16:15","17:00"],["15:30","16:15"],["16:15","17:00"]], aulas: ["PP1","PP1","PP1","PP1"] },
+            "37": { dias: ["MARTES","MARTES","JUEVES","JUEVES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["QP6","QP6","QP6","QP6"] },
+            "38": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["QP2","QP2","QP2","QP2"] },
+            "41": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "42": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "43": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["PB2","PB2","PB2","PB2"] },
+            "44": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "47": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["SC","SC","SC","SC"] },
+            "61": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["PP6","PP6","PP6","PP6"] },
+            "62": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["09:30","10:15"],["10:15","11:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["PP6","PP6","PP6","PP6"] },
+            "82": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["PP6","PP6","PP6","PP6"] },
+            "83": { dias: ["MIERCOLES","MIERCOLES","MIERCOLES","MIERCOLES"], horas: [["17:00","17:45"],["17:45","18:30"],["18:30","19:15"],["19:15","20:00"]], aulas: ["PP6","PP6","PP6","PP6"] }
+        }
+    },
+    "PSICOLOGIA JURIDICA": {
+        codigo: "1900006",
+        grupos: {
+            "11": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["CP2","CP2","CP2","CP2"] },
+            "12": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["09:30","10:15"],["10:15","11:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["QP2","QP2","QP2","QP2"] },
+            "13": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["TP4","TP4","CP1","CP1"] },
+            "14": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["QP2","QP2","QP2","QP2"] },
+            "21": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["08:00","08:45"],["08:45","09:30"],["08:00","08:45"],["08:45","09:30"]], aulas: ["PP2","PP2","PP2","PP2"] },
+            "22": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "23": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["TP2","TP2","TP2","TP2"] },
+            "24": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["09:30","10:15"],["10:15","11:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "25": { dias: ["MARTES","MARTES","MARTES","MARTES"], horas: [["17:00","17:45"],["17:45","18:30"],["18:30","19:15"],["19:15","20:00"]], aulas: ["QL","QL","QL","QL"] },
+            "26": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["CP4","CP4","QP1","QP1"] },
+            "27": { dias: ["MIERCOLES","MIERCOLES","JUEVES","JUEVES"], horas: [["06:30","07:15"],["07:15","08:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["CP5","CP5","CP4","CP4"] },
+            "31": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "32": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["CP3","CP3","CP3","CP3"] },
+            "33": { dias: ["LUNES","LUNES","MIERCOLES","MIERCOLES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["DAPRAC3","DAPRAC3","CP5","CP5"] },
+            "34": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["15:30","16:15"],["16:15","17:00"],["15:30","16:15"],["16:15","17:00"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "35": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["PP5","PP5","PP5","PP5"] },
+            "36": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["15:30","16:15"],["16:15","17:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["PP1","PP1","PP1","PP1"] },
+            "38": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["QP2","QP2","QP2","QP2"] },
+            "41": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["18:30","19:15"],["19:15","20:00"],["15:30","16:15"],["16:15","17:00"]], aulas: ["QP3","QP3","CP4","CP4"] },
+            "42": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["17:00","17:45"],["17:45","18:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "43": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["PP5","PP5","PP5","PP5"] },
+            "44": { dias: ["LUNES","LUNES","MIERCOLES","MIERCOLES"], horas: [["15:30","16:15"],["16:15","17:00"],["17:00","17:45"],["17:45","18:30"]], aulas: ["CP4","CP4","QP4","QP4"] },
+            "47": { dias: ["JUEVES","JUEVES","JUEVES","JUEVES"], horas: [["17:00","17:45"],["17:45","18:30"],["18:30","19:15"],["19:15","20:00"]], aulas: ["SC","SC","SC","SC"] }
+        }
+    },
+    "SOCIOLOGIA JURIDICA": {
+        codigo: "1900007",
+        grupos: {
+            "11": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["CP4","CP4","CP4","CP4"] },
+            "12": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["PB1","PB1","PB1","PB1"] },
+            "13": { dias: ["LUNES","LUNES","MIERCOLES","MIERCOLES"], horas: [["17:00","17:45"],["17:45","18:30"],["12:30","13:15"],["13:15","14:00"]], aulas: ["QP6","QP6","QP6","QP6"] },
+            "14": { dias: ["SABADO","SABADO","SABADO","SABADO"], horas: [["06:30","07:15"],["07:15","08:00"],["08:00","08:45"],["08:45","09:30"]], aulas: ["SP2","SP2","QP3","QP3"] },
+            "21": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "22": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["QP5","QP5","QP5","QP5"] },
+            "23": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["CP3","CP3","PB1","PB1"] },
+            "24": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "25": { dias: ["JUEVES","JUEVES","JUEVES","JUEVES"], horas: [["18:30","19:15"],["19:15","20:00"],["20:00","20:45"],["20:45","21:30"]], aulas: ["QL","QL","QL","QL"] },
+            "26": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["09:30","10:15"],["10:15","11:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "27": { dias: ["MARTES","MARTES","JUEVES","JUEVES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["CP5","CP5","CP5","CP5"] },
+            "31": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["QP6","QP6","QP6","QP6"] },
+            "32": { dias: ["MARTES","MARTES","MARTES","MARTES"], horas: [["17:00","17:45"],["17:45","18:30"],["18:30","19:15"],["19:15","20:00"]], aulas: ["TP4","TP4","CP3","CP3"] },
+            "33": { dias: ["MARTES","MARTES","JUEVES","JUEVES"], horas: [["17:00","17:45"],["17:45","18:30"],["18:30","19:15"],["19:15","20:00"]], aulas: ["QP2","QP2","CP3","CP3"] },
+            "34": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "35": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["PP5","PP5","PP5","PP5"] },
+            "36": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["SP5","SP5","SP5","SP5"] },
+            "37": { dias: ["MARTES","MARTES","JUEVES","JUEVES"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["PB2","PB2","CP3","CP3"] },
+            "38": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["TP2","TP2","TP2","TP2"] },
+            "41": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "42": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["15:30","16:15"],["16:15","17:00"],["15:30","16:15"],["16:15","17:00"]], aulas: ["PP4","PP4","PP4","PP4"] },
+            "43": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["PP1","PP1","PP1","PP1"] },
+            "44": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["PB2","PB2","PB2","PB2"] },
+            "47": { dias: ["LUNES","LUNES","LUNES","LUNES"], horas: [["17:00","17:45"],["17:45","18:30"],["18:30","19:15"],["19:15","20:00"]], aulas: ["SC","SC","SC","SC"] }
+        }
+    },
+    "TEORIAS DEL ESTADO": {
+        codigo: "1900008",
+        grupos: {
+            "11": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "13": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["CP4","CP4","CP4","CP4"] },
+            "14": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["08:00","08:45"],["08:45","09:30"],["08:00","08:45"],["08:45","09:30"]], aulas: ["PP4","PP4","PP4","PP4"] },
+            "21": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "22": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["06:30","07:15"],["07:15","08:00"],["06:30","07:15"],["07:15","08:00"]], aulas: ["SP3","SP3","SP3","SP3"] },
+            "23": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["09:30","10:15"],["10:15","11:00"],["09:30","10:15"],["10:15","11:00"]], aulas: ["CP3","CP3","CP3","CP3"] },
+            "24": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["08:00","08:45"],["08:45","09:30"],["08:00","08:45"],["08:45","09:30"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "26": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["11:00","11:45"],["11:45","12:30"],["11:00","11:45"],["11:45","12:30"]], aulas: ["PP5","PP5","PP5","PP5"] },
+            "27": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["08:00","08:45"],["08:45","09:30"],["08:00","08:45"],["08:45","09:30"]], aulas: ["CP5","CP5","CP5","CP5"] },
+            "31": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["PP4","PP4","PP4","PP4"] },
+            "32": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["QP3","QP3","QP3","QP3"] },
+            "33": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["15:30","16:15"],["16:15","17:00"],["15:30","16:15"],["16:15","17:00"]], aulas: ["PB1","PB1","PB1","PB1"] },
+            "34": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["TP1","TP1","TP1","TP1"] },
+            "35": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["14:00","14:45"],["14:45","15:30"],["14:00","14:45"],["14:45","15:30"]], aulas: ["PP5","PP5","PP5","PP5"] },
+            "36": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["SP5","SP5","SP5","SP5"] },
+            "37": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["15:30","16:15"],["16:15","17:00"],["15:30","16:15"],["16:15","17:00"]], aulas: ["PP2","PP2","PP2","PP2"] },
+            "38": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["PP6","PP6","PP6","PP6"] },
+            "41": { dias: ["LUNES","LUNES","JUEVES","JUEVES"], horas: [["12:30","13:15"],["13:15","14:00"],["12:30","13:15"],["13:15","14:00"]], aulas: ["DAPRAC1","DAPRAC1","DAPRAC1","DAPRAC1"] },
+            "42": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["17:00","17:45"],["17:45","18:30"],["17:00","17:45"],["17:45","18:30"]], aulas: ["QP1","QP1","QP1","QP1"] },
+            "43": { dias: ["MIERCOLES","MIERCOLES","SABADO","SABADO"], horas: [["18:30","19:15"],["19:15","20:00"],["14:00","14:45"],["14:45","15:30"]], aulas: ["PP5","PP5","PP5","PP5"] },
+            "44": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["18:30","19:15"],["19:15","20:00"],["18:30","19:15"],["19:15","20:00"]], aulas: ["QP4","QP4","QP4","QP4"] },
+            "47": { dias: ["SABADO","SABADO","SABADO","SABADO"], horas: [["08:00","08:45"],["08:45","09:30"],["09:30","10:15"],["10:15","11:00"]], aulas: ["SC","SC","SC","SC"] },
+            "81": { dias: ["MARTES","MARTES","VIERNES","VIERNES"], horas: [["20:00","20:45"],["20:45","21:30"],["20:00","20:45"],["20:45","21:30"]], aulas: ["CP4","CP4","CP4","CP4"] }
+        }
+    }
+};
+
+    // ============== FIN DE LA BASE DE DATOS ==============
+
+    // Mapeo de nombres de materia a clases CSS (para los colores)
+    const clasePorMateria = {
+        "TEORIAS DEL ESTADO": "teorias",
+        "PSICOLOGIA JURIDICA": "psicologia",
+        "ETICA Y ORATORIA FORENSE": "etica",
+        "ECONOMIA POLITICA Y DERECHO ECONOMICO": "economia",
+        "SOCIOLOGIA JURIDICA": "sociologia",
+        "METODOS Y TECNICAS DE INVESTIGACION": "metodos",
+        "INTRODUCCION AL DERECHO": "introduccion",
+        "DERECHO ROMANO E HISTORIA DEL DERECHO": "romano",
+        "CRIMINOLOGIA": "criminologia"
+    };
+
+    // Lista ordenada de materias
+    const listaMaterias = Object.keys(materiasData).sort();
+
+    // Mapeo de días a números de columna
+    const diasMap = {
+        "LUNES": 0, "MARTES": 1, "MIERCOLES": 2, "JUEVES": 3, "VIERNES": 4, "SABADO": 5
+    };
+
+    const bloquesHorarios = [
+        "06:30 - 08:00", "08:00 - 09:30", "09:30 - 11:00", "11:00 - 12:30",
+        "12:30 - 14:00", "14:00 - 15:30", "15:30 - 17:00", "17:00 - 18:30",
+        "18:30 - 20:00", "20:00 - 21:30"
+    ];
+
+    function bloqueDesdeHora(horaInicio) {
+        const map = {
+            "06:30":0, "08:00":1, "09:30":2, "11:00":3, "12:30":4,
+            "14:00":5, "15:30":6, "17:00":7, "18:30":8, "20:00":9
+        };
+        return map[horaInicio] !== undefined ? map[horaInicio] : -1;
+    }
+
+    // Estado actual del horario: guardamos materia, grupo y la info completa del grupo
+    let materiasEnHorario = [];
+
+    // Elementos DOM
+    const selMateria = document.getElementById('selMateria');
+    const selGrupo = document.getElementById('selGrupo');
+    const btnAgregar = document.getElementById('btnAgregar');
+    const btnReset = document.getElementById('btnReset');
+    const infoGrupo = document.getElementById('info-grupo');
+    const resultado = document.getElementById('resultado');
+    const tablaCuerpo = document.getElementById('tabla-cuerpo');
+    const contadorMaterias = document.getElementById('contador-materias');
+    const modalEliminar = document.getElementById('modalEliminar');
+    const modalContent = document.getElementById('modal-content');
+    const resumenMaterias = document.getElementById('resumen-materias');
+    const leyendaGrid = document.getElementById('leyenda-grid');
+    const leyendaEstado = document.getElementById('leyenda-estado');
+
+    // Poblar selector de materias
+    function poblarMaterias() {
+        selMateria.innerHTML = '<option value="">-- Selecciona una materia --</option>';
+        listaMaterias.forEach(m => {
+            const option = document.createElement('option');
+            option.value = m;
+            option.textContent = m;
+            selMateria.appendChild(option);
+        });
+    }
+
+    // Actualizar grupos al cambiar materia
+    selMateria.addEventListener('change', function() {
+        const materia = this.value;
+        if (!materia) {
+            selGrupo.innerHTML = '<option value="">Primero elige materia</option>';
+            selGrupo.disabled = true;
+            infoGrupo.innerHTML = 'Selecciona una materia y un grupo para ver detalles.';
+            return;
+        }
+        const grupos = materiasData[materia]?.grupos;
+        if (!grupos) {
+            selGrupo.innerHTML = '<option value="">No hay grupos</option>';
+            selGrupo.disabled = true;
+            infoGrupo.innerHTML = 'No hay información de grupos para esta materia.';
+            return;
+        }
+        selGrupo.disabled = false;
+        selGrupo.innerHTML = '<option value="">-- Selecciona un grupo --</option>';
+        Object.keys(grupos).sort((a,b) => parseInt(a)-parseInt(b)).forEach(g => {
+            const option = document.createElement('option');
+            option.value = g;
+            const info = grupos[g];
+            let desc = `Grupo ${g} - `;
+            info.dias.forEach((dia, idx) => {
+                desc += `${dia} ${info.horas[idx][0]}-${info.horas[idx][1]} `;
+            });
+            option.textContent = desc.substring(0, 60) + '…';
+            selGrupo.appendChild(option);
+        });
+        infoGrupo.innerHTML = 'Selecciona un grupo.';
+    });
+
+    // Mostrar info del grupo y agregar automáticamente
+    selGrupo.addEventListener('change', function() {
+        const materia = selMateria.value;
+        const grupo = this.value;
+        if (!materia || !grupo) {
+            infoGrupo.innerHTML = 'Selecciona un grupo.';
+            return;
+        }
+        const info = materiasData[materia]?.grupos[grupo];
+        if (!info) return;
+
+        let html = `<strong>${materia} - Grupo ${grupo}</strong><br>`;
+        info.dias.forEach((dia, i) => {
+            html += `${dia} ${info.horas[i][0]} - ${info.horas[i][1]} | Aula: ${info.aulas[i]}<br>`;
+        });
+        infoGrupo.innerHTML = html;
+
+        agregarMateriaAlHorario(materia, grupo);
+    });
+
+    // Función para agregar materia (reemplaza si ya existe la materia)
+    function agregarMateriaAlHorario(materia, grupo) {
+        const infoGrupo = materiasData[materia]?.grupos[grupo];
+        if (!infoGrupo) return;
+
+        const index = materiasEnHorario.findIndex(item => item.materia === materia);
+        const nuevoItem = { materia, grupo, infoGrupo };
+        if (index !== -1) {
+            materiasEnHorario[index] = nuevoItem;
+        } else {
+            materiasEnHorario.push(nuevoItem);
+        }
+        renderizarTabla();
+    }
+
+    // Función para obtener la clase CSS de una materia
+    function claseMateria(nombreMateria) {
+        return clasePorMateria[nombreMateria] || '';
+    }
+
+    // Actualizar resumen de materias (etiquetas)
+    function actualizarResumen() {
+        let html = '';
+        materiasEnHorario.forEach(item => {
+            const clase = claseMateria(item.materia);
+            html += `<span class="resumen-item" style="border-left: 4px solid ${getColorClase(clase)};">${item.materia} G${item.grupo}</span>`;
+        });
+        resumenMaterias.innerHTML = html || '<span style="color: gray;">No hay materias agregadas</span>';
+    }
+
+    // Helper para obtener el color de borde de una clase (para el resumen)
+    function getColorClase(clase) {
+        const colores = {
+            'teorias': '#1976d2',
+            'psicologia': '#2e7d32',
+            'etica': '#7b1fa2',
+            'economia': '#f57c00',
+            'sociologia': '#c62828',
+            'metodos': '#c2185b',
+            'introduccion': '#0097a7',
+            'romano': '#ff6f00',
+            'criminologia': '#546e7a'
+        };
+        return colores[clase] || '#6c757d';
+    }
+
+    // Actualizar leyenda
+    function actualizarLeyenda() {
+        if (materiasEnHorario.length === 0) {
+            leyendaGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Agrega materias para ver la leyenda.</p>';
+            return;
+        }
+        let html = '';
+        materiasEnHorario.forEach(item => {
+            const clase = claseMateria(item.materia);
+            const info = item.infoGrupo;
+            // Tomamos la primera sesión para mostrar un ejemplo
+            const primera = info.dias[0] + ' ' + info.horas[0][0] + '-' + info.horas[0][1] + ' | ' + info.aulas[0];
+            html += `<div class="leyenda-item" style="background-color: ${getBgColorClase(clase)}; border-left: 4px solid ${getColorClase(clase)};">
+                <strong>${item.materia}</strong> - Grupo ${item.grupo}<br>
+                <small>${primera}</small>
+            </div>`;
+        });
+        leyendaGrid.innerHTML = html;
+    }
+
+    function getBgColorClase(clase) {
+        const fondos = {
+            'teorias': '#e3f2fd',
+            'psicologia': '#e8f5e9',
+            'etica': '#f3e5f5',
+            'economia': '#fff3e0',
+            'sociologia': '#ffebee',
+            'metodos': '#fce4ec',
+            'introduccion': '#e0f7fa',
+            'romano': '#fff8e1',
+            'criminologia': '#eceff1'
+        };
+        return fondos[clase] || '#f8f9fa';
+    }
+
+    // Renderizar tabla
+    function renderizarTabla() {
+        const celdas = Array(10).fill().map(() => Array(6).fill().map(() => []));
+
+        materiasEnHorario.forEach(item => {
+            const info = item.infoGrupo;
+            info.dias.forEach((dia, idx) => {
+                const col = diasMap[dia];
+                if (col === undefined) return;
+                const fila = bloqueDesdeHora(info.horas[idx][0]);
+                if (fila === -1) return;
+                celdas[fila][col].push({
+                    materia: item.materia,
+                    grupo: item.grupo,
+                    aula: info.aulas[idx],
+                    hora: `${info.horas[idx][0]}-${info.horas[idx][1]}`,
+                    itemRef: item,
+                    clase: claseMateria(item.materia)
+                });
+            });
+        });
+
+        let tbody = '';
+        for (let f = 0; f < bloquesHorarios.length; f++) {
+            tbody += '<tr>';
+            tbody += `<td class="hora">${bloquesHorarios[f]}</td>`;
+            for (let d = 0; d < 6; d++) {
+                const materiasEnCelda = celdas[f][d];
+                let contenido = '';
+                let clases = 'materia-cell';
+                if (materiasEnCelda.length > 0) {
+                    if (materiasEnCelda.length > 1) clases += ' choque';
+                    // Asignamos la clase de la primera materia (si hay varias, se mezclan; elegimos un color representativo)
+                    const claseUnica = materiasEnCelda[0].clase;
+                    clases += ' ' + claseUnica;
+                    contenido = materiasEnCelda.map(m => {
+    return `<div><span class="materia-titulo">${m.materia}</span> <span class="badge-grupo">G${m.grupo}</span><br><span class="info-grupo">📍 ${m.aula}</span><br><span class="info-aula">🕒 ${m.hora}</span></div>`;
+}).join('<hr style="margin:4px 0; border:0.5px solid #ccc;">');
+                } else {
+                    contenido = '— Libre —';
+                    clases += ' libre';
+                }
+                tbody += `<td class="${clases}" data-fila="${f}" data-dia="${d}">${contenido}</td>`;
+            }
+            tbody += '</tr>';
+        }
+        tablaCuerpo.innerHTML = tbody;
+        contadorMaterias.innerText = materiasEnHorario.length;
+
+        // Detectar choques
+        const choques = [];
+        for (let f = 0; f < bloquesHorarios.length; f++) {
+            for (let d = 0; d < 6; d++) {
+                if (celdas[f][d].length > 1) {
+                    const diaNombre = Object.keys(diasMap).find(key => diasMap[key] === d);
+                    choques.push({
+                        dia: diaNombre,
+                        hora: bloquesHorarios[f],
+                        materias: celdas[f][d].map(m => `${m.materia} G${m.grupo}`)
+                    });
+                }
+            }
+        }
+        if (choques.length === 0) {
+            resultado.className = 'success-msg';
+            resultado.innerHTML = '✅ No hay choques de horario.';
+            resultado.style.display = 'block';
+            leyendaEstado.innerHTML = '✅ Horario sin conflictos';
+        } else {
+            resultado.className = 'error-msg';
+            let html = '❌ Se encontraron choques:<br><ul>';
+            choques.forEach(ch => {
+                html += `<li><strong>${ch.dia} ${ch.hora}</strong>: ${ch.materias.join(' y ')}</li>`;
+            });
+            html += '</ul>';
+            resultado.innerHTML = html;
+            resultado.style.display = 'block';
+            leyendaEstado.innerHTML = '⚠️ Hay conflictos de horario';
+        }
+
+        actualizarResumen();
+        actualizarLeyenda();
+    }
+
+    // Manejar clic en celda para eliminar
+    tablaCuerpo.addEventListener('click', function(e) {
+        const td = e.target.closest('td');
+        if (!td || td.classList.contains('hora') || td.classList.contains('libre')) return;
+
+        const fila = td.dataset.fila;
+        const dia = td.dataset.dia;
+        if (!fila || !dia) return;
+
+        const f = parseInt(fila);
+        const d = parseInt(dia);
+
+        // Reconstruir lista de materias en esa celda
+        const materiasEnCelda = [];
+        materiasEnHorario.forEach(item => {
+            const info = item.infoGrupo;
+            info.dias.forEach((diaNom, idx) => {
+                if (diasMap[diaNom] === d && bloqueDesdeHora(info.horas[idx][0]) === f) {
+                    materiasEnCelda.push({
+                        ...item,
+                        aula: info.aulas[idx],
+                        hora: `${info.horas[idx][0]}-${info.horas[idx][1]}`
+                    });
+                }
+            });
+        });
+
+        if (materiasEnCelda.length === 0) return;
+
+        if (materiasEnCelda.length === 1) {
+            // Eliminar directamente
+            const item = materiasEnCelda[0];
+            materiasEnHorario = materiasEnHorario.filter(m => !(m.materia === item.materia && m.grupo === item.grupo));
+            renderizarTabla();
+        } else {
+            // Mostrar modal para elegir
+            mostrarModal(materiasEnCelda);
+        }
+    });
+
+    // Mostrar modal con opciones
+    function mostrarModal(materias) {
+        modalContent.innerHTML = '';
+        materias.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.style.padding = '10px';
+            div.style.borderBottom = '1px solid #eee';
+            div.style.cursor = 'pointer';
+            div.innerHTML = `<strong>${item.materia}</strong> - Grupo ${item.grupo}<br><span class="info-grupo">📍 ${item.aula} </span>`;
+            div.onclick = () => {
+                // Eliminar el item específico
+                materiasEnHorario = materiasEnHorario.filter(m => !(m.materia === item.materia && m.grupo === item.grupo));
+                renderizarTabla();
+                cerrarModal();
+            };
+            modalContent.appendChild(div);
+        });
+        modalEliminar.style.display = 'flex';
+    }
+
+    // Cerrar modal
+    function cerrarModal() {
+        modalEliminar.style.display = 'none';
+    }
+
+    // Botón agregar (alternativo al automático)
+    btnAgregar.addEventListener('click', function() {
+        const materia = selMateria.value;
+        const grupo = selGrupo.value;
+        if (!materia || !grupo) {
+            alert('Debes seleccionar una materia y un grupo.');
+            return;
+        }
+        agregarMateriaAlHorario(materia, grupo);
+    });
+
+    // Vaciar horario
+   btnReset.addEventListener('click', function() {
+    materiasEnHorario = [];
+    renderizarTabla();
+    selMateria.value = '';
+    selGrupo.innerHTML = '<option value="">Primero elige materia</option>';
+    selGrupo.disabled = true;
+    infoGrupo.innerHTML = 'Selecciona una materia y un grupo para ver detalles.';
+});
+    // Inicializar
+    poblarMaterias();
+    renderizarTabla();
+
+    // Exponer cerrarModal globalmente para el botón Cancelar
+    window.cerrarModal = cerrarModal;
+})();
+</script>
+
+</body>
+</html>
